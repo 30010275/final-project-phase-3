@@ -1,28 +1,19 @@
-from models.rental import Rental
+from sqlalchemy.orm import Session
+from models.database import SessionLocal
 from models.vehicle import Vehicle
+from models.rental import Rental
 
-def rent_vehicle(vehicle_id, renter_name):
-    
+def rent_vehicle(vehicle_id, renter_name, is_vip):
+    db = SessionLocal()
     vehicle = Vehicle.find_by_id(vehicle_id)
-    if vehicle:
-        return vehicle.rent(renter_name)
-    return None
+    
+    if not vehicle or not vehicle.available:
+        db.close()
+        return None  # Vehicle is not available for rent
 
-def list_rented_cars():
-    rentals = Rental.list_all_rentals()
-    rented_cars = []
-    for rental in rentals:
-        rented_cars.append({
-            "renter_name": rental.renter_name,
-            "vehicle_id": rental.vehicle_id,
-            "rental_date": rental.rental_date,
-            "return_date": rental.return_date,
-            "total_cost": rental.total_cost
-        })
-    return rented_cars
-
-def return_vehicle(rental_id, rental_hours):
-    rental = Rental.find_by_id(rental_id)
-    if rental:
-        return rental.return_vehicle(rental_hours)
-    return None
+    rental_cost = vehicle.calculate_rental_cost(is_vip)  # Calculate rental cost
+    vehicle.available = False  # Mark vehicle as rented
+    rental = Rental.create(renter_name, vehicle, rental_cost)  # Create rental record
+    db.commit()
+    db.close()
+    return rental
