@@ -1,7 +1,8 @@
 # Vehicle Rental System
 
 ## Description
-The Vehicle Rental System is a simple application that allows users to manage vehicle rentals. Users can add vehicles, list available vehicles, rent vehicles, return vehicles, and view rented vehicles.
+The Vehicle Rental System is a simple application that allows users to manage vehicle rentals. Users can add vehicles, list available 
+vehicles, rent vehicles, return vehicles, and view rented vehicles.
 
 ## Features
 - Add new vehicles to the system
@@ -10,4 +11,13 @@ The Vehicle Rental System is a simple application that allows users to manage ve
 - Return rented vehicles
 - View all rented vehicles
 
+## Installation Instructions
+1. Clone the repository: `git clone <repository-url>`
+2. Navigate to the project directory: `cd vehicle_rental_system`
+3. Install dependencies: `pip install -r requirements.txt`
 
+## Usage
+To run the application, execute the following command:
+```
+python main.py
+```
